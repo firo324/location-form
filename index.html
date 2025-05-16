@@ -24,7 +24,7 @@
       max-width: 400px;
     }
 
-    select, button, textarea {
+    select, button, textarea, input[type="text"] {
       width: 100%;
       padding: 10px;
       font-size: 16px;
@@ -49,10 +49,16 @@
   </style>
 </head>
 <body>
-  <!-- 新しいURLに書き換えた部分 -->
-  <form action="https://script.google.com/macros/s/AKfycbwR8WsjgU_JNM6fyGwQlxFzV1vNHdh94WdZzpbsZ7hAzsPczvfpBWSWKrGw3EtuOa0/exec" method="POST">
-    <input type="hidden" name="user" value="tanaka">
+  <form action="https://script.google.com/macros/s/AKfycbygg0ZoXSwizC13d5Pf-upnAh7GDLYbauDq51Av_Fz6_ih7NNzwyPOTtXiQB2Kr40wv/exec" method="POST">
+    <!-- 名前のドロップダウンリスト -->
+    <select name="user" id="user" required>
+      <option value="">名前を選択</option>
+      <? for (var i = 0; i < names.length; i++) { ?>
+        <option value="<?= names[i][0] ?>"><?= names[i][0] ?></option>
+      <? } ?>
+    </select>
 
+    <!-- 居場所選択 -->
     <select name="location" id="location" onchange="toggleLocationInput()">
       <option value="1階">1階</option>
       <option value="2階薬局長室">2階薬局長室</option>
@@ -68,14 +74,12 @@
   </form>
 
   <script>
-    // 外出選択時のみテキストエリアを表示
     function toggleLocationInput() {
       var locationSelect = document.getElementById('location');
       var otherLocationInput = document.getElementById('other-location');
       otherLocationInput.style.display = locationSelect.value === '外出' ? 'block' : 'none';
     }
 
-    // ページ読み込み時にデフォルトの状態を設定
     window.onload = function () {
       toggleLocationInput();
     };
