@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>居場所選択フォーム</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f4f4f9;
+    }
+
+    form {
+      background-color: white;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      width: 90%;
+      max-width: 400px;
+    }
+
+    select, button, textarea, input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      margin: 10px 0;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    #other-location {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <form action="https://script.google.com/macros/s/AKfycbygg0ZoXSwizC13d5Pf-upnAh7GDLYbauDq51Av_Fz6_ih7NNzwyPOTtXiQB2Kr40wv/exec" method="POST">
+    <!-- 名前のドロップダウンリスト -->
+    <select name="user" id="user" required>
+      <option value="">名前を選択</option>
+      <? for (var i = 0; i < names.length; i++) { ?>
+        <option value="<?= names[i][0] ?>"><?= names[i][0] ?></option>
+      <? } ?>
+    </select>
+
+    <!-- 居場所選択 -->
+    <select name="location" id="location" onchange="toggleLocationInput()">
+      <option value="1階">1階</option>
+      <option value="2階薬局長室">2階薬局長室</option>
+      <option value="2階調剤室">2階調剤室</option>
+      <option value="3階">3階</option>
+      <option value="外出">外出</option>
+    </select>
+
+    <!-- 外出時に表示されるテキストエリア -->
+    <textarea id="other-location" name="other-location" placeholder="外出の場合、具体的な場所を入力してください" rows="4"></textarea>
+
+    <button type="submit">更新</button>
+  </form>
+
+  <script>
+    function toggleLocationInput() {
+      var locationSelect = document.getElementById('location');
+      var otherLocationInput = document.getElementById('other-location');
+      otherLocationInput.style.display = locationSelect.value === '外出' ? 'block' : 'none';
+    }
+
+    window.onload = function () {
+      toggleLocationInput();
+    };
+  </script>
+</body>
+</html>
