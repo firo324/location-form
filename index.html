@@ -51,8 +51,10 @@
 <body>
   <form action="https://script.google.com/macros/s/AKfycbw9cWhL8Go6YSBtbJZh1wVjBAyDLcHfEa6BntIZ_Es2POlF5g3awpr7NcOic0NfS8Zp/exec" method="POST">
     
-    <!-- 名前の手入力欄 -->
-    <input type="text" name="user" id="user" placeholder="名前を入力してください" required>
+    <!-- 名前のドロップダウン（1人用） -->
+    <select name="user" id="user" required>
+      <option value="藤本">藤本</option>
+    </select>
 
     <!-- 居場所選択 -->
     <select name="location" id="location" onchange="toggleLocationInput()">
