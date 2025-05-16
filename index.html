@@ -49,7 +49,8 @@
   </style>
 </head>
 <body>
-  <form action="https://script.google.com/macros/s/AKfycbygg0ZoXSwizC13d5Pf-upnAh7GDLYbauDq51Av_Fz6_ih7NNzwyPOTtXiQB2Kr40wv/exec" method="POST">
+  <!-- 新しいURLに書き換えた部分 -->
+  <form action="https://script.google.com/macros/s/AKfycbwR8WsjgU_JNM6fyGwQlxFzV1vNHdh94WdZzpbsZ7hAzsPczvfpBWSWKrGw3EtuOa0/exec" method="POST">
     <input type="hidden" name="user" value="tanaka">
 
     <select name="location" id="location" onchange="toggleLocationInput()">
@@ -60,18 +61,21 @@
       <option value="外出">外出</option>
     </select>
 
+    <!-- 外出時に表示されるテキストエリア -->
     <textarea id="other-location" name="other-location" placeholder="外出の場合、具体的な場所を入力してください" rows="4"></textarea>
 
     <button type="submit">更新</button>
   </form>
 
   <script>
+    // 外出選択時のみテキストエリアを表示
     function toggleLocationInput() {
       var locationSelect = document.getElementById('location');
       var otherLocationInput = document.getElementById('other-location');
       otherLocationInput.style.display = locationSelect.value === '外出' ? 'block' : 'none';
     }
 
+    // ページ読み込み時にデフォルトの状態を設定
     window.onload = function () {
       toggleLocationInput();
     };
