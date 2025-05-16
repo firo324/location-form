@@ -25,7 +25,7 @@
             max-width: 400px;
         }
 
-        select, button {
+        select, button, textarea {
             width: 100%;
             padding: 10px;
             font-size: 16px;
@@ -44,20 +44,49 @@
             background-color: #45a049;
         }
 
+        /* 最初はテキストエリアを隠す */
+        #other-location {
+            display: none;
+        }
     </style>
 </head>
 <body>
     <form action="https://your-server.com/update" method="POST">
         <input type="hidden" name="user" value="tanaka">
-        <select name="location">
+        
+        <!-- 居場所選択 -->
+        <select name="location" id="location" onchange="toggleLocationInput()">
             <option value="1階">1階</option>
             <option value="2階薬局長室">2階薬局長室</option>
             <option value="2階調剤室">2階調剤室</option>
             <option value="3階">3階</option>
             <option value="外出">外出</option>
         </select>
-        <textarea name="other-location" placeholder="外出の場合、具体的な場所を入力してください" rows="4"></textarea>
+
+        <!-- 外出時に表示されるテキストエリア -->
+        <textarea id="other-location" name="other-location" placeholder="外出の場合、具体的な場所を入力してください" rows="4"></textarea>
+
         <button type="submit">更新</button>
     </form>
+
+    <script>
+        // 外出選択時のみテキストエリアを表示
+        function toggleLocationInput() {
+            var locationSelect = document.getElementById('location');
+            var otherLocationInput = document.getElementById('other-location');
+
+            // 「外出」が選ばれた場合にテキストエリアを表示
+            if (locationSelect.value === '外出') {
+                otherLocationInput.style.display = 'block';
+            } else {
+                otherLocationInput.style.display = 'none';
+            }
+        }
+        
+        // ページ読み込み時にデフォルトの状態を設定
+        window.onload = function() {
+            toggleLocationInput();
+        };
+    </script>
 </body>
 </html>
