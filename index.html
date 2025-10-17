@@ -6,7 +6,7 @@
   <title>居場所選択フォーム</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: meiryo, sans-serif;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -31,7 +31,7 @@
       margin: 10px 0;
       border-radius: 5px;
       border: 1px solid #ccc;
-      transition: border-color 0.2s ease,　box-shadow 0.2s ease, transform 0.1s ease;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.1s ease;
       box-sizing: border-box;
     }
 
@@ -45,7 +45,7 @@
       outline: none;
     }
 
-    select:hover,  textarea:hover, input[type="text"]:hover {
+    select:hover, textarea:hover, input[type="text"]:hover {
       transform: scale(1.02);
     }
 
@@ -69,16 +69,22 @@
     #other-location {
       display: none;
     }
+
+    #message {
+      margin-top: 10px;
+      text-align: center;
+      color: #333;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
-  <form action="https://script.google.com/macros/s/AKfycbz_vemE4tzSZSl3g0zKIWHQnCywm4bVXS_lP-EKhJaVQmUiFTS5xM3ySxR3RBTbx6GW/exec" method="POST">
+  <form id="locationForm" action="https://script.google.com/macros/s/AKfycbz_vemE4tzSZSl3g0zKIWHQnCywm4bVXS_lP-EKhJaVQmUiFTS5xM3ySxR3RBTbx6GW/exec" method="POST">
     
     <!-- 名前のドロップダウン（2人用） -->
     <select name="user" id="user" required>
       <option value="藤本">藤本</option>
       <option value="その他">その他</option>
-      <!-- ここに追加可能（Apps scriptも編集する） -->
     </select>
 
     <!-- 居場所選択 -->
@@ -88,25 +94,50 @@
       <option value="2階調剤室">2階調剤室</option>
       <option value="3階">3階</option>
       <option value="外出">外出</option>
-      <!-- ここに追加可能 -->
     </select>
 
     <!-- 外出時に表示されるテキストエリア -->
     <textarea id="other-location" name="other-location" placeholder="外出の場合、具体的な場所を入力してください" rows="4"></textarea>
 
     <button type="submit">更新</button>
+    <div id="message"></div>
   </form>
 
   <script>
     function toggleLocationInput() {
-      var locationSelect = document.getElementById('location');
-      var otherLocationInput = document.getElementById('other-location');
+      const locationSelect = document.getElementById('location');
+      const otherLocationInput = document.getElementById('other-location');
       otherLocationInput.style.display = locationSelect.value === '外出' ? 'block' : 'none';
     }
 
     window.onload = function () {
       toggleLocationInput();
     };
+
+    // フォーム送信処理（リロードなし）
+    document.getElementById('locationForm').addEventListener('submit', async (e) => {
+      e.preventDefault(); // ページリロードを止める
+      const form = e.target;
+      const msg = document.getElementById('message');
+      msg.textContent = '送信中...';
+
+      const fd = new FormData(form);
+
+      try {
+        const res = await fetch(form.action, { method: 'POST', body: fd });
+        const text = await res.text();
+
+        if (text.includes('Success')) {
+          msg.textContent = '送信完了しました。';
+          form.reset();
+          toggleLocationInput(); // 外出欄を非表示に戻す
+        } else {
+          msg.textContent = '送信に失敗しました。';
+        }
+      } catch (err) {
+        msg.textContent = '通信エラーが発生しました。';
+      }
+    });
   </script>
 </body>
 </html>
