@@ -127,7 +127,7 @@
         const res = await fetch(form.action, { method: 'POST', body: fd });
         const text = await res.text();
 
-        if (text.includes('Success')) {
+        if (text.includes('更新成功')) {
           msg.textContent = '送信完了しました。';
           form.reset();
           toggleLocationInput(); // 外出欄を非表示に戻す
@@ -141,3 +141,4 @@
   </script>
 </body>
 </html>
+
